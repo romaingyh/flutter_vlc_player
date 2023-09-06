@@ -80,6 +80,7 @@ class _SingleTabState extends State<SingleTab> {
         _controller = VlcPlayerController.network(
           initVideo.path,
           hwAcc: HwAcc.full,
+          useTexture: true,
           options: VlcPlayerOptions(
             advanced: VlcAdvancedOptions([
               VlcAdvancedOptions.networkCaching(_networkCachingMs),
@@ -104,11 +105,13 @@ class _SingleTabState extends State<SingleTab> {
         final file = File(initVideo.path);
         _controller = VlcPlayerController.file(
           file,
+          useTexture: true,
         );
       case VideoType.asset:
         _controller = VlcPlayerController.asset(
           initVideo.path,
           options: VlcPlayerOptions(),
+          useTexture: true,
         );
       case VideoType.recorded:
         break;

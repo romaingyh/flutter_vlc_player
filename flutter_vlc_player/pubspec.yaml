@@ -3,6 +3,8 @@ description: A VLC-powered alternative to Flutter's video_player. Supports multi
 version: 7.2.1
 homepage: https://github.com/solid-software/flutter_vlc_player/
 
+publish_to: none
+
 environment:
   sdk: '>=3.0.5 <4.0.0'
   flutter: ">=2.12.0"
@@ -20,7 +22,9 @@ dependencies:
   flutter:
     sdk: flutter
   
-  flutter_vlc_player_platform_interface: ^2.0.3
+  #flutter_vlc_player_platform_interface: ^2.0.3
+  flutter_vlc_player_platform_interface:
+    path: ../flutter_vlc_player_platform_interface
     
   meta: ^1.8.0
 

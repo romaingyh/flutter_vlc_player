@@ -82,6 +82,7 @@ class _VlcPlayerState extends State<VlcPlayer>
             child: vlcPlayerPlatform.buildView(
               widget.controller.onPlatformViewCreated,
               virtualDisplay: widget.virtualDisplay,
+              useTexture: widget.controller.useTexture,
             ),
           ),
         ],
