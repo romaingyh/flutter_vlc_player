@@ -1,3 +1,21 @@
+## 7.4.0
+* Important change: Removed [AutomaticKeepAliveClientMixin](https://api.flutter.dev/flutter/widgets/AutomaticKeepAliveClientMixin-mixin.html) from plugin widget
+* Mobile VLC update to 3.6.0-eap9
+* Allow background playback
+  Credits to Oliver Nitzschke (https://github.com/pinpong)
+* fix instructions for proguard
+  Credits to Luiz Fernando Baldo Marques (https://github.com/luizbaldo)
+
+## 7.3.1
+* Restore Flutter 3.3-3.7 compatibility
+  Credits to Yang Fang (https://github.com/yangsfang)
+
+## 7.3.0
+* Fix http-user-agent & reuse options on iOS
+  Credits to Afriza N. Arief (https://github.com/afriza)
+* Update to Dart 3 and Flutter 3.13
+  Credits to romain.gyh (https://github.com/romaingyh)
+
 ## 7.2.0
 * Update to latest VLCKit sdks
 Credits to Mitch Ross (https://github.com/mitchross)

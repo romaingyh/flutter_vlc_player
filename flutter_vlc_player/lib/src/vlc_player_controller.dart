@@ -46,6 +46,10 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
   /// Initialize vlc player when the platform is ready automatically
   final bool autoInitialize;
 
+  /// Set keep playing video in background, when app goes in background.
+  /// The default value is false.
+  final bool allowBackgroundPlayback;
+
   /// This is a callback that will be executed once the platform view has been initialized.
   /// If you want the media to play as soon as the platform view has initialized, you could just call
   /// [VlcPlayerController.play] in this callback. (see the example).
@@ -100,6 +104,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
   VlcPlayerController.asset(
     this.dataSource, {
     this.autoInitialize = true,
+    this.allowBackgroundPlayback = false,
     this.package,
     this.hwAcc = HwAcc.auto,
     this.autoPlay = true,
@@ -123,6 +128,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
   VlcPlayerController.network(
     this.dataSource, {
     this.autoInitialize = true,
+    this.allowBackgroundPlayback = false,
     this.hwAcc = HwAcc.auto,
     this.autoPlay = true,
     bool useTexture = false,
@@ -145,6 +151,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
   VlcPlayerController.file(
     File file, {
     this.autoInitialize = true,
+    this.allowBackgroundPlayback = true,
     this.hwAcc = HwAcc.auto,
     this.autoPlay = true,
     bool useTexture = false,
@@ -192,7 +199,9 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
       throw Exception('Already Initialized');
     }
 
-    _lifeCycleObserver = VlcAppLifeCycleObserver(this)..initialize();
+    if (!allowBackgroundPlayback) {
+      _lifeCycleObserver = VlcAppLifeCycleObserver(this)..initialize();
+    }
 
     await vlcPlayerPlatform.create(
       viewId: _viewId,
@@ -222,14 +231,14 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             playingState: PlayingState.buffering,
             errorDescription: VlcPlayerValue.noError,
           );
-
+          break;
         case VlcMediaEventType.paused:
           value = value.copyWith(
             isPlaying: false,
             isBuffering: false,
             playingState: PlayingState.paused,
           );
-
+          break;
         case VlcMediaEventType.stopped:
           value = value.copyWith(
             isPlaying: false,
@@ -238,7 +247,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             playingState: PlayingState.stopped,
             position: Duration.zero,
           );
-
+          break;
         case VlcMediaEventType.playing:
           value = value.copyWith(
             isEnded: false,
@@ -254,7 +263,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             activeSpuTrack: event.activeSpuTrack,
             errorDescription: VlcPlayerValue.noError,
           );
-
+          break;
         case VlcMediaEventType.ended:
           value = value.copyWith(
             isPlaying: false,
@@ -264,7 +273,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             playingState: PlayingState.ended,
             position: event.position,
           );
-
+          break;
         case VlcMediaEventType.buffering:
         case VlcMediaEventType.timeChanged:
           value = value.copyWith(
@@ -285,7 +294,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
                 : value.playingState,
             errorDescription: VlcPlayerValue.noError,
           );
-
+          break;
         case VlcMediaEventType.mediaChanged:
           break;
 
@@ -295,7 +304,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             isRecording: event.isRecording,
             recordPath: event.recordPath,
           );
-
+          break;
         case VlcMediaEventType.error:
           value = value.copyWith(
             isPlaying: false,
@@ -304,7 +313,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             playingState: PlayingState.error,
             errorDescription: VlcPlayerValue.unknownError,
           );
-
+          break;
         case VlcMediaEventType.unknown:
           break;
       }
@@ -340,6 +349,7 @@ class VlcPlayerController extends ValueNotifier<VlcPlayerValue> {
             event.rendererId,
             event.rendererName,
           );
+          break;
         case VlcRendererEventType.unknown:
           break;
       }
