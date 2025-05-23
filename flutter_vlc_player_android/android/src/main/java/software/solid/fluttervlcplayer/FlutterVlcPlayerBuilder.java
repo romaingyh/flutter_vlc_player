@@ -16,19 +16,19 @@ import io.flutter.view.TextureRegistry;
 import software.solid.fluttervlcplayer.Enums.DataSourceType;
 import software.solid.fluttervlcplayer.Enums.HwAcc;
 
-public class FlutterVlcPlayerBuilder implements Messages.VlcPlayerApi {
+public class FlutterVlcPlayerBuilder implements Messages.AndroidVlcPlayerApi {
 
     private final LongSparseArray<FlutterVlcPlayer> vlcPlayers = new LongSparseArray<>();
     private FlutterVlcPlayerFactory.KeyForAssetFn keyForAsset;
     private FlutterVlcPlayerFactory.KeyForAssetAndPackageName keyForAssetAndPackageName;
 
     void startListening(BinaryMessenger messenger) {
-        Messages.VlcPlayerApi.setUp(messenger, this);
+        Messages.AndroidVlcPlayerApi.setUp(messenger, this);
     }
 
     void stopListening(BinaryMessenger messenger) {
 //        disposeAllPlayers();
-        Messages.VlcPlayerApi.setUp(messenger, null);
+        Messages.AndroidVlcPlayerApi.setUp(messenger, null);
     }
 
     FlutterVlcPlayer build(int viewId, Context context, BinaryMessenger binaryMessenger, TextureRegistry textureRegistry, FlutterVlcPlayerFactory.KeyForAssetFn keyForAsset, FlutterVlcPlayerFactory.KeyForAssetAndPackageName keyForAssetAndPackageName) {
