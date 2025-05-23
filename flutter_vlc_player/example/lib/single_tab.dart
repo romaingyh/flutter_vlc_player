@@ -1,4 +1,4 @@
-// ignore_for_file: cyclomatic_complexity
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -251,10 +251,10 @@ class _SingleTabState extends State<SingleTab> {
   }
 
   @override
-  Future<void> dispose() async {
-    await _controller.stopRecording();
-    await _controller.stopRendererScanning();
-    await _controller.dispose();
+  void dispose() {
+    _controller.stopRecording();
+    _controller.stopRendererScanning();
+    _controller.dispose();
     super.dispose();
   }
 }

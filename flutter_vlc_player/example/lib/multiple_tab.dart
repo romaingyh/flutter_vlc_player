@@ -64,10 +64,10 @@ class _MultipleTabState extends State<MultipleTab> {
   }
 
   @override
-  Future<void> dispose() async {
+  void dispose() {
     for (final controller in controllers) {
-      await controller.stopRendererScanning();
-      await controller.dispose();
+      controller.stopRendererScanning();
+      controller.dispose();
     }
     super.dispose();
   }
