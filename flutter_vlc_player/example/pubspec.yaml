@@ -3,7 +3,10 @@ description: Demonstrates how to use the flutter_vlc_player plugin.
 publish_to: 'none'
 
 environment:
-  sdk: ">=2.18.0 <4.0.0"
+  sdk: ^3.6.0
+  flutter: '>=3.3.0'
+
+resolution: workspace
 
 dependencies:
   cupertino_icons: ^1.0.8
@@ -20,7 +23,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  solid_lints: ^0.2.3
+  solid_lints: ^0.3.0
 
 # The following section is specific to Flutter.
 flutter:
