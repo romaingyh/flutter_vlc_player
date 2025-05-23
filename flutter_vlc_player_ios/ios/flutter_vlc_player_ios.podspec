@@ -1,11 +1,11 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint flutter_vlc_player.podspec' to validate before publishing.
+# Run `pod lib lint flutter_vlc_player_ios.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'flutter_vlc_player'
-  s.version          = '3.0.3'
-  s.summary          = 'A new flutter plugin project.'
+  s.name             = 'flutter_vlc_player_ios'
+  s.version          = '0.0.1'
+  s.summary          = 'A new Flutter plugin project.'
   s.description      = <<-DESC
   A VLC-powered alternative to Flutter video_player. Supports multiple players on one screen.
                        DESC
@@ -18,8 +18,14 @@ Pod::Spec.new do |s|
   s.platform = :ios, '11.0'
   s.dependency 'MobileVLCKit', '~> 3.6.1b1'
   s.static_framework = true
-
+  
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
+
+  # If your plugin requires a privacy manifest, for example if it uses any
+  # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
+  # plugin's privacy impact, and then uncomment this line. For more information,
+  # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
+  # s.resource_bundles = {'flutter_vlc_player_ios_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 end

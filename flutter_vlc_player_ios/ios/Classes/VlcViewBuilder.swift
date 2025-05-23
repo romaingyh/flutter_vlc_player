@@ -1,7 +1,7 @@
 import Flutter
 import Foundation
 
-public class VLCViewBuilder: NSObject, VlcPlayerApi {
+public class VLCViewBuilder: NSObject, IOSVlcPlayerApi {
     var players = [Int: VLCViewController]()
     private var registrar: FlutterPluginRegistrar
     private var messenger: FlutterBinaryMessenger
@@ -13,7 +13,7 @@ public class VLCViewBuilder: NSObject, VlcPlayerApi {
         options = []
         super.init()
         //
-        VlcPlayerApiSetup.setUp(binaryMessenger: messenger, api: self)
+        IOSVlcPlayerApiSetup.setUp(binaryMessenger: messenger, api: self)
     }
     
     public func build(frame: CGRect, viewId: Int64) -> VLCViewController {
