@@ -10,7 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_vlc_player_android/src/messages.g.dart';
 
-
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -18,19 +17,19 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is CreateMessage) {
+    } else if (value is CreateMessage) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    }    else if (value is SetMediaMessage) {
+    } else if (value is SetMediaMessage) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    }    else if (value is SpuTracksMessage) {
+    } else if (value is SpuTracksMessage) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    }    else if (value is AddSubtitleMessage) {
+    } else if (value is AddSubtitleMessage) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    }    else if (value is AddAudioMessage) {
+    } else if (value is AddAudioMessage) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
     } else {
@@ -41,15 +40,15 @@ class _PigeonCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 129: 
+      case 129:
         return CreateMessage.decode(readValue(buffer)!);
-      case 130: 
+      case 130:
         return SetMediaMessage.decode(readValue(buffer)!);
-      case 131: 
+      case 131:
         return SpuTracksMessage.decode(readValue(buffer)!);
-      case 132: 
+      case 132:
         return AddSubtitleMessage.decode(readValue(buffer)!);
-      case 133: 
+      case 133:
         return AddAudioMessage.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -58,7 +57,8 @@ class _PigeonCodec extends StandardMessageCodec {
 }
 
 abstract class TestHostVlcPlayerApi {
-  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding => TestDefaultBinaryMessengerBinding.instance;
+  static TestDefaultBinaryMessengerBinding? get _testBinaryMessengerBinding =>
+      TestDefaultBinaryMessengerBinding.instance;
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
   void initialize();
@@ -155,1217 +155,1954 @@ abstract class TestHostVlcPlayerApi {
 
   bool stopRecording(int playerId);
 
-  static void setUp(TestHostVlcPlayerApi? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
-    messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+  static void setUp(
+    TestHostVlcPlayerApi? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
+    messageChannelSuffix =
+        messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.initialize$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.initialize$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          try {
-            api.initialize();
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              try {
+                api.initialize();
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.create$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.create$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.create was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final CreateMessage? arg_msg = (args[0] as CreateMessage?);
-          assert(arg_msg != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.create was null, expected non-null CreateMessage.');
-          try {
-            api.create(arg_msg!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.create was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final CreateMessage? arg_msg = (args[0] as CreateMessage?);
+              assert(
+                arg_msg != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.create was null, expected non-null CreateMessage.',
+              );
+              try {
+                api.create(arg_msg!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.dispose$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.dispose$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.dispose was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.dispose was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.dispose was null, expected non-null int.',
+              );
+              try {
+                api.dispose(arg_playerId!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setStreamUrl$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setStreamUrl was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final SetMediaMessage? arg_msg = (args[0] as SetMediaMessage?);
+              assert(
+                arg_msg != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setStreamUrl was null, expected non-null SetMediaMessage.',
+              );
+              try {
+                api.setStreamUrl(arg_msg!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.play$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.play was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.play was null, expected non-null int.',
+              );
+              try {
+                api.play(arg_playerId!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.pause$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.pause was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.pause was null, expected non-null int.',
+              );
+              try {
+                api.pause(arg_playerId!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stop$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stop was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stop was null, expected non-null int.',
+              );
+              try {
+                api.stop(arg_playerId!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isPlaying$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isPlaying was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isPlaying was null, expected non-null int.',
+              );
+              try {
+                final bool output = api.isPlaying(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isSeekable$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isSeekable was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isSeekable was null, expected non-null int.',
+              );
+              try {
+                final bool output = api.isSeekable(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.dispose was null, expected non-null int.');
-          try {
-            api.dispose(arg_playerId!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setStreamUrl$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setStreamUrl was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final SetMediaMessage? arg_msg = (args[0] as SetMediaMessage?);
-          assert(arg_msg != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setStreamUrl was null, expected non-null SetMediaMessage.');
-          try {
-            api.setStreamUrl(arg_msg!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.play$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.play was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.play was null, expected non-null int.');
-          try {
-            api.play(arg_playerId!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.pause$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.pause was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.pause was null, expected non-null int.');
-          try {
-            api.pause(arg_playerId!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stop$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stop was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stop was null, expected non-null int.');
-          try {
-            api.stop(arg_playerId!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isPlaying$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isPlaying was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isPlaying was null, expected non-null int.');
-          try {
-            final bool output = api.isPlaying(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isSeekable$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isSeekable was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.isSeekable was null, expected non-null int.');
-          try {
-            final bool output = api.isSeekable(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping was null, expected non-null int.',
+          );
           final bool? arg_isLooping = (args[1] as bool?);
-          assert(arg_isLooping != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping was null, expected non-null bool.');
+          assert(
+            arg_isLooping != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setLooping was null, expected non-null bool.',
+          );
           try {
             api.setLooping(arg_playerId!, arg_isLooping!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo was null, expected non-null int.',
+          );
           final int? arg_position = (args[1] as int?);
-          assert(arg_position != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo was null, expected non-null int.');
+          assert(
+            arg_position != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.seekTo was null, expected non-null int.',
+          );
           try {
             api.seekTo(arg_playerId!, arg_position!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.position$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.position$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.position was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.position was null, expected non-null int.');
-          try {
-            final int output = api.position(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.position was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.position was null, expected non-null int.',
+              );
+              try {
+                final int output = api.position(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.duration$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.duration$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.duration was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.duration was null, expected non-null int.');
-          try {
-            final int output = api.duration(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.duration was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.duration was null, expected non-null int.',
+              );
+              try {
+                final int output = api.duration(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume was null, expected non-null int.',
+          );
           final int? arg_volume = (args[1] as int?);
-          assert(arg_volume != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume was null, expected non-null int.');
+          assert(
+            arg_volume != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVolume was null, expected non-null int.',
+          );
           try {
             api.setVolume(arg_playerId!, arg_volume!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVolume$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVolume$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVolume was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVolume was null, expected non-null int.');
-          try {
-            final int output = api.getVolume(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVolume was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVolume was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getVolume(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed was null, expected non-null int.',
+          );
           final double? arg_speed = (args[1] as double?);
-          assert(arg_speed != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed was null, expected non-null double.');
+          assert(
+            arg_speed != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setPlaybackSpeed was null, expected non-null double.',
+          );
           try {
             api.setPlaybackSpeed(arg_playerId!, arg_speed!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getPlaybackSpeed$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getPlaybackSpeed$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getPlaybackSpeed was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getPlaybackSpeed was null, expected non-null int.');
-          try {
-            final double output = api.getPlaybackSpeed(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getPlaybackSpeed was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getPlaybackSpeed was null, expected non-null int.',
+              );
+              try {
+                final double output = api.getPlaybackSpeed(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.takeSnapshot$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.takeSnapshot$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.takeSnapshot was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.takeSnapshot was null, expected non-null int.');
-          try {
-            final String? output = api.takeSnapshot(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.takeSnapshot was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.takeSnapshot was null, expected non-null int.',
+              );
+              try {
+                final String? output = api.takeSnapshot(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracksCount$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracksCount$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracksCount was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracksCount was null, expected non-null int.');
-          try {
-            final int output = api.getSpuTracksCount(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracksCount was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracksCount was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getSpuTracksCount(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracks$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracks$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracks was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracks was null, expected non-null int.');
-          try {
-            final Map<int, String> output = api.getSpuTracks(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracks was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTracks was null, expected non-null int.',
+              );
+              try {
+                final Map<int, String> output = api.getSpuTracks(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack was null, expected non-null int.',
+          );
           final int? arg_spuTrackNumber = (args[1] as int?);
-          assert(arg_spuTrackNumber != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack was null, expected non-null int.');
+          assert(
+            arg_spuTrackNumber != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuTrack was null, expected non-null int.',
+          );
           try {
             api.setSpuTrack(arg_playerId!, arg_spuTrackNumber!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTrack was null, expected non-null int.');
-          try {
-            final int output = api.getSpuTrack(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTrack was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuTrack was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getSpuTrack(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay was null, expected non-null int.',
+          );
           final int? arg_delay = (args[1] as int?);
-          assert(arg_delay != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay was null, expected non-null int.');
+          assert(
+            arg_delay != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setSpuDelay was null, expected non-null int.',
+          );
           try {
             api.setSpuDelay(arg_playerId!, arg_delay!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuDelay$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuDelay$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuDelay was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuDelay was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuDelay was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getSpuDelay(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addSubtitleTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addSubtitleTrack was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final AddSubtitleMessage? arg_msg =
+                  (args[0] as AddSubtitleMessage?);
+              assert(
+                arg_msg != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addSubtitleTrack was null, expected non-null AddSubtitleMessage.',
+              );
+              try {
+                api.addSubtitleTrack(arg_msg!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracksCount$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracksCount was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracksCount was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getAudioTracksCount(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracks$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracks was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracks was null, expected non-null int.',
+              );
+              try {
+                final Map<int, String> output = api.getAudioTracks(
+                  arg_playerId!,
+                );
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getSpuDelay was null, expected non-null int.');
-          try {
-            final int output = api.getSpuDelay(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addSubtitleTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addSubtitleTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final AddSubtitleMessage? arg_msg = (args[0] as AddSubtitleMessage?);
-          assert(arg_msg != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addSubtitleTrack was null, expected non-null AddSubtitleMessage.');
-          try {
-            api.addSubtitleTrack(arg_msg!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracksCount$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracksCount was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracksCount was null, expected non-null int.');
-          try {
-            final int output = api.getAudioTracksCount(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracks$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracks was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTracks was null, expected non-null int.');
-          try {
-            final Map<int, String> output = api.getAudioTracks(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack was null, expected non-null int.',
+          );
           final int? arg_audioTrackNumber = (args[1] as int?);
-          assert(arg_audioTrackNumber != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack was null, expected non-null int.');
+          assert(
+            arg_audioTrackNumber != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioTrack was null, expected non-null int.',
+          );
           try {
             api.setAudioTrack(arg_playerId!, arg_audioTrackNumber!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTrack was null, expected non-null int.');
-          try {
-            final int output = api.getAudioTrack(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTrack was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioTrack was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getAudioTrack(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay was null, expected non-null int.',
+          );
           final int? arg_delay = (args[1] as int?);
-          assert(arg_delay != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay was null, expected non-null int.');
+          assert(
+            arg_delay != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setAudioDelay was null, expected non-null int.',
+          );
           try {
             api.setAudioDelay(arg_playerId!, arg_delay!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioDelay$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioDelay$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioDelay was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioDelay was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioDelay was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getAudioDelay(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addAudioTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addAudioTrack was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final AddAudioMessage? arg_msg = (args[0] as AddAudioMessage?);
+              assert(
+                arg_msg != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addAudioTrack was null, expected non-null AddAudioMessage.',
+              );
+              try {
+                api.addAudioTrack(arg_msg!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracksCount$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracksCount was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracksCount was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getVideoTracksCount(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracks$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracks was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracks was null, expected non-null int.',
+              );
+              try {
+                final Map<int, String> output = api.getVideoTracks(
+                  arg_playerId!,
+                );
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+      } else {
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAudioDelay was null, expected non-null int.');
-          try {
-            final int output = api.getAudioDelay(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addAudioTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addAudioTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final AddAudioMessage? arg_msg = (args[0] as AddAudioMessage?);
-          assert(arg_msg != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.addAudioTrack was null, expected non-null AddAudioMessage.');
-          try {
-            api.addAudioTrack(arg_msg!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracksCount$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracksCount was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracksCount was null, expected non-null int.');
-          try {
-            final int output = api.getVideoTracksCount(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracks$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracks was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTracks was null, expected non-null int.');
-          try {
-            final Map<int, String> output = api.getVideoTracks(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
-      } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack was null, expected non-null int.',
+          );
           final int? arg_videoTrackNumber = (args[1] as int?);
-          assert(arg_videoTrackNumber != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack was null, expected non-null int.');
+          assert(
+            arg_videoTrackNumber != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoTrack was null, expected non-null int.',
+          );
           try {
             api.setVideoTrack(arg_playerId!, arg_videoTrackNumber!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTrack$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTrack$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTrack was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTrack was null, expected non-null int.');
-          try {
-            final int output = api.getVideoTrack(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTrack was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoTrack was null, expected non-null int.',
+              );
+              try {
+                final int output = api.getVideoTrack(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale was null, expected non-null int.',
+          );
           final double? arg_scale = (args[1] as double?);
-          assert(arg_scale != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale was null, expected non-null double.');
+          assert(
+            arg_scale != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoScale was null, expected non-null double.',
+          );
           try {
             api.setVideoScale(arg_playerId!, arg_scale!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoScale$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoScale$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoScale was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoScale was null, expected non-null int.');
-          try {
-            final double output = api.getVideoScale(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoScale was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoScale was null, expected non-null int.',
+              );
+              try {
+                final double output = api.getVideoScale(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio was null, expected non-null int.',
+          );
           final String? arg_aspectRatio = (args[1] as String?);
-          assert(arg_aspectRatio != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio was null, expected non-null String.');
+          assert(
+            arg_aspectRatio != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.setVideoAspectRatio was null, expected non-null String.',
+          );
           try {
             api.setVideoAspectRatio(arg_playerId!, arg_aspectRatio!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoAspectRatio$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoAspectRatio$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoAspectRatio was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoAspectRatio was null, expected non-null int.');
-          try {
-            final String output = api.getVideoAspectRatio(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoAspectRatio was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getVideoAspectRatio was null, expected non-null int.',
+              );
+              try {
+                final String output = api.getVideoAspectRatio(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAvailableRendererServices$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAvailableRendererServices$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAvailableRendererServices was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAvailableRendererServices was null, expected non-null int.');
-          try {
-            final List<String> output = api.getAvailableRendererServices(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAvailableRendererServices was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getAvailableRendererServices was null, expected non-null int.',
+              );
+              try {
+                final List<String> output = api.getAvailableRendererServices(
+                  arg_playerId!,
+                );
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning was null, expected non-null int.',
+          );
           final String? arg_rendererService = (args[1] as String?);
-          assert(arg_rendererService != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning was null, expected non-null String.');
+          assert(
+            arg_rendererService != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRendererScanning was null, expected non-null String.',
+          );
           try {
             api.startRendererScanning(arg_playerId!, arg_rendererService!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRendererScanning$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRendererScanning$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRendererScanning was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRendererScanning was null, expected non-null int.');
-          try {
-            api.stopRendererScanning(arg_playerId!);
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRendererScanning was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRendererScanning was null, expected non-null int.',
+              );
+              try {
+                api.stopRendererScanning(arg_playerId!);
+                return wrapResponse(empty: true);
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getRendererDevices$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getRendererDevices$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getRendererDevices was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getRendererDevices was null, expected non-null int.');
-          try {
-            final Map<String, String> output = api.getRendererDevices(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getRendererDevices was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.getRendererDevices was null, expected non-null int.',
+              );
+              try {
+                final Map<String, String> output = api.getRendererDevices(
+                  arg_playerId!,
+                );
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer was null, expected non-null int.',
+          );
           final String? arg_rendererId = (args[1] as String?);
-          assert(arg_rendererId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer was null, expected non-null String.');
+          assert(
+            arg_rendererId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.castToRenderer was null, expected non-null String.',
+          );
           try {
             api.castToRenderer(arg_playerId!, arg_rendererId!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording was null.');
+        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<
+          Object?
+        >(pigeonVar_channel, (Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording was null.',
+          );
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording was null, expected non-null int.');
+          assert(
+            arg_playerId != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording was null, expected non-null int.',
+          );
           final String? arg_saveDirectory = (args[1] as String?);
-          assert(arg_saveDirectory != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording was null, expected non-null String.');
+          assert(
+            arg_saveDirectory != null,
+            'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.startRecording was null, expected non-null String.',
+          );
           try {
-            final bool output = api.startRecording(arg_playerId!, arg_saveDirectory!);
+            final bool output = api.startRecording(
+              arg_playerId!,
+              arg_saveDirectory!,
+            );
             return <Object?>[output];
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
           }
         });
       }
     }
     {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRecording$messageChannelSuffix', pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
+      final BasicMessageChannel<Object?>
+      pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRecording$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
       if (api == null) {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, null);
       } else {
-        _testBinaryMessengerBinding!.defaultBinaryMessenger.setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (Object? message) async {
-          assert(message != null,
-          'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRecording was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_playerId = (args[0] as int?);
-          assert(arg_playerId != null,
-              'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRecording was null, expected non-null int.');
-          try {
-            final bool output = api.stopRecording(arg_playerId!);
-            return <Object?>[output];
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          }          catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
+        _testBinaryMessengerBinding!.defaultBinaryMessenger
+            .setMockDecodedMessageHandler<Object?>(pigeonVar_channel, (
+              Object? message,
+            ) async {
+              assert(
+                message != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRecording was null.',
+              );
+              final List<Object?> args = (message as List<Object?>?)!;
+              final int? arg_playerId = (args[0] as int?);
+              assert(
+                arg_playerId != null,
+                'Argument for dev.flutter.pigeon.flutter_vlc_player_android.AndroidVlcPlayerApi.stopRecording was null, expected non-null int.',
+              );
+              try {
+                final bool output = api.stopRecording(arg_playerId!);
+                return <Object?>[output];
+              } on PlatformException catch (e) {
+                return wrapResponse(error: e);
+              } catch (e) {
+                return wrapResponse(
+                  error: PlatformException(
+                    code: 'error',
+                    message: e.toString(),
+                  ),
+                );
+              }
+            });
       }
     }
   }
