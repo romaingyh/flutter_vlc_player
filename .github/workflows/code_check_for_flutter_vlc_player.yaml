@@ -17,23 +17,20 @@ jobs:
         run: flutter --version
 
       - name: Get dependencies
-        working-directory: ./flutter_vlc_player
         run: flutter pub get
 
+      # TODO: Check if it run solid_lints, not sure because of pub workspace
       - name: Run Solid Lints
-        working-directory: ./flutter_vlc_player
         run: dart analyze
 
       - name: Check formatting
-        working-directory: ./flutter_vlc_player        
         run: dart format . --set-exit-if-changed
 
       - name: Run tests
         run: |
-          # run tests if `test` folder exists
-          if [ -d test ]
-          then
-              flutter test -r expanded
-          else
-              echo "Tests not found."
-          fi
+          for dir in $(find . -maxdepth 3 -type d -name "test"); do
+            echo "Running tests in $dir"
+            cd $dir
+            flutter test
+            cd ..
+          done
