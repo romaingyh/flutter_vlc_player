@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_match_file_name
 import 'package:pigeon/pigeon.dart';
 
 // to make changes effect, must run "dart run pigeon --input pigeons/messages.dart"

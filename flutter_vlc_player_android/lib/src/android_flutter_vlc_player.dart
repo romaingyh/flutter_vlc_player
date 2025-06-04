@@ -8,12 +8,12 @@ import 'package:flutter_vlc_player_platform_interface/flutter_vlc_player_platfor
 
 /// An Android implementation of [VideoPlayerPlatform] that uses the
 /// Pigeon-generated [AndroidVlcPlayerApi].
-class AndroidVlcPlayer extends VlcPlayerPlatform {
+class AndroidFlutterVlcPlayer extends VlcPlayerPlatform {
   final AndroidVlcPlayerApi _api = AndroidVlcPlayerApi();
 
   /// Registers this class as the default instance of [VlcPlayerPlatform].
   static void registerWith() {
-    VlcPlayerPlatform.instance = AndroidVlcPlayer();
+    VlcPlayerPlatform.instance = AndroidFlutterVlcPlayer();
   }
 
   EventChannel _mediaEventChannelFor(int viewId) {
@@ -103,6 +103,7 @@ class AndroidVlcPlayer extends VlcPlayerPlatform {
   }
 
   @override
+  // ignore: cyclomatic_complexity
   Stream<VlcMediaEvent> mediaEventsFor(int viewId) {
     return _mediaEventChannelFor(viewId).receiveBroadcastStream().map((
       dynamic event,
